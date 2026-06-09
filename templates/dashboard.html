@@ -211,7 +211,7 @@ function renderHost(h){
     <div class="ports-row">${ports}</div>
     <div class="host-footer">
       <span>Vérifié à ${esc(h.checked_at)}</span>
-      <button class="delete-btn" onclick="deleteHost(${JSON.stringify(esc(h.name))})">🗑 Supprimer</button>
+      <button class="delete-btn" data-name="${esc(h.name)}" onclick="deleteHost(this.dataset.name)">🗑 Supprimer</button>
     </div>
   </div>`;
 }
