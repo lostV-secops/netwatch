@@ -80,11 +80,14 @@ def test_api_status_requiert_auth(client):
 
 
 def test_api_status_retourne_json(logged_in_client):
-    """L'API /api/status doit retourner du JSON valide."""
+    """L'API /api/status doit retourner un JSON avec 'hosts' et 'summary'."""
     resp = logged_in_client.get("/api/status")
     assert resp.status_code == 200
     data = json.loads(resp.data)
-    assert isinstance(data, list)
+    assert isinstance(data, dict)
+    assert "hosts" in data
+    assert "summary" in data
+    assert "total" in data["summary"]
 
 
 def test_api_targets_get(logged_in_client):
@@ -125,9 +128,10 @@ def test_load_targets_retourne_liste():
     assert isinstance(targets, list)
 
 
-def test_ping_host_google():
-    """ping_host sur 8.8.8.8 doit retourner un statut 'up' ou 'down' (pas d'exception)."""
-    result = app_module.ping_host("8.8.8.8")
+def test_ping_host_ne_leve_pas_exception():
+    """ping_host doit toujours retourner 'up' ou 'down', sans lever d'exception."""
+    # On teste sur localhost — toujours accessible même en CI
+    result = app_module.ping_host("127.0.0.1")
     assert result in ("up", "down")
 
 
