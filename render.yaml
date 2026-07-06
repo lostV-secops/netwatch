@@ -3,4 +3,4 @@ services:
     name: netwatch
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:netwatch_app --bind 0.0.0.0:$PORT --workers 2
+    startCommand: gunicorn netwatch_app:app --bind 0.0.0.0:$PORT --workers 2
